@@ -5,6 +5,7 @@ import DisplayProfile from '@src/components/DisplayProfile';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import getGithubUser, { getGithubUserResponse } from '@src/services/github/searchUser';
+import useResource from '@src/hooks/useResource';
 
 function Screen() {
 
@@ -12,8 +13,7 @@ function Screen() {
     const query = searchParams.get('query')
     const [searchValue, setSearchValue] = useState('');
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState<getGithubUserResponse | null>(null)
+    const { data, error, getResource, loading } = useResource(() => getGithubUser(query!))
 
     const onButtonSearchClick = useCallback(() => {
         router.query.query = searchValue;
@@ -24,27 +24,15 @@ function Screen() {
 
     useEffect(() => {
         const asynMethod = async () => {
-            setLoading(true)
             if(query){
                 setSearchValue(query)
                 // console.log(`fazer chamada de usuario ${query}`)
-                await getGithubUser(query).then((data) => {
-                    
-                    setData(data.data)
-                })
-                .catch(e => {
-                    if(e){                   
-                        return;
-                    }
-                })
-                .finally(() => {
-                    setLoading(false)
-                })
+                await getResource();
             }
         }
 
         asynMethod();
-    }, [searchParams]);
+    }, [searchParams, query]);
 
     const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if(evt.key === 'Enter'){
