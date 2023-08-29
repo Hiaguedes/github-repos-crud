@@ -1,4 +1,4 @@
-import { Input, Button } from '@mui/material';
+import { Input, Button, IconButton } from '@mui/material';
 import styled from '@emotion/styled'
 
 export const SearchWrapper = styled.div`
@@ -32,4 +32,10 @@ export const TextWrapper = styled.div`
     flex-direction: row;
     gap: 0.6rem;
     align-items: center;
+`;
+
+export const FloatingButton = styled(IconButton)`
+    position: fixed;
+    right: 5%;
+    bottom: 5%;
 `;

@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import getGithubUser, { getGithubUserResponse } from '@src/services/github/searchUser';
 import useResource from '@src/hooks/useResource';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function Screen() {
 
@@ -83,7 +84,9 @@ function Screen() {
                     </S.ProjectsWrapper>
             </>
         )}
-
+        <S.FloatingButton onClick={() => router.push('list')}>
+            <MenuIcon  />
+        </S.FloatingButton>
     </div>
   )
 }
